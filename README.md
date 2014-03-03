@@ -16,39 +16,38 @@ Design
 
 - Players start with a set of basic _Skills_ (Dash, Retreat, Taunt, Roll) and a set of basic _Techniques_ (Rapid-fire, Explosive-shot, Pierce-shot)
 - Players learn new _skills_ and _techniques_ by satisfying certain conditions
-- _Skills_ are learnt only by a combination and use of other _skills_
-- _Techniques_ require special conditions and combinations to be learnt. Generally, it requires a type of weapon to be equipped and some skills to be used (e.g.: Omnislash will be learnt if the player dashes through a serie of enemies attacking with a sword-type weapon). It can also require some environment characteristic in conjuction with other specific events/actions.
+- _Skills_ are learned only by a combination and use of other _skills_
+- _Techniques_ require special conditions and combinations to be learned. Generally, it requires a type of weapon to be equipped and some skills to be used (e.g.: Omnislash will be learned if the player dashes through a serie of enemies attacking with a sword-type weapon). It can also require some environment characteristic in conjuction with other specific events/actions.
 
 - Players can carry two weapons, one equipped and the other carried in he's back (with certain _techniques_ he can carry some more (e.g.: Dual Wielding Sword let the player equip a pair of swords and carry a pair. ).
 
-###Jetpack and Jump
+####Jetpack and Jump
 - Jump modifies the player's velocity instantly, giving a initial impulse
 - Jetpack _must_ not give a great acceleration (it can cancels the gravity, maybe a little bit more)
 
-###Skills
-####Basic Skills
+####Skills
+#####Basic Skills
 - Dash: player thrusts forward a small distance, but he can be hit during it. Can be used mid-air. Can attack with melee weapons durint it
 - Retreat: player thrusts backwards a small distance, but he can be hit during it. (used mid-air?)
 - Taunt: player provokes all AI-controlled enemies in a small/medium range, forcing all enemies provoked to go attack him
 - Roll: player rolls on ground, prevent all damage and avoiding all projectiles during the roll. Cannot be used mid-air
 
-###Techniques
+####Techniques
 #####Format: name \[requirements\]\[damage\]\[cd\]: description
-####Basic Techniques
+#####Basic Techniques
 - Rapid-fire \[ranged bullet? weapons\]\[100%\]\[5s\]: player shoots 4 shots rapidly
 - Explosive-shot \[ranged bullet? weapons\]\[120%\]\[8s\]: player shoots a explosive shot, causing damage in the area it exploded
 - Pierce-shot \[ranged bullet? weapons\]\[100%\]\[5s\]: player shoots a piercing shot that goes through enemies, hitting more than one enemy
 
-####Sword Techniques
+#####Sword Techniques
 - Omnislash \[cutting close-combat weapons\]\[120%\]\[12s\]: player dashes through enemies, attacking them and avoiding any physical damage while dashing. Attacks 5 times maximum. Can hit the same enemy multiple times
 - Dual Wielding \[sword-type weapons\]\[passive\]: lets player equip/carry two swords
 - Berserker \[any weapons / gloves?\]\[100%\]\[12s\]: player enters in a frenzy, attacking faster but receiving more damage
 
-####Naum's ideas
+#####Naum's ideas
 - Santoryu \[Roronoa Zoro\]: lets you equip three swords and carry other three. In reference to One Piece's Roronoa Zoro
 
-To discuss
-----------
+###To discuss
 - Game Objective
 - Game Environment (also what are the enemies)
 - Boss prizes (items!!)

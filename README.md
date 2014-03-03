@@ -1,7 +1,7 @@
 SideShooter (temporary name)
 ===========
 
-*Style*: 2D Rogue-like semiRPG
+*Style*: 2D Rogue-like semiRPG Sci-fi
 
 Design
 ------

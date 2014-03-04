@@ -5,6 +5,7 @@ Temp/
 Obj/
 UnityGenerated/
 Library/
+*.exe
  
 # ===================================== #
 # Visual Studio / MonoDevelop generated #
@@ -31,3 +32,5 @@ ExportedObj/
 Icon?
 ehthumbs.db
 Thumbs.db
+
+webclient/

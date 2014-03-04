@@ -5,6 +5,7 @@ Temp/
 Obj/
 UnityGenerated/
 Library/
+*_Data/
 *.exe
  
 # ===================================== #

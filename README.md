@@ -6,7 +6,7 @@ SideShooter (temporary name)
 Design
 ------
 - All players start equal. No classes, races or unique weapons (maybe races or classes, later)
-- Players have a weapon, two skills and two techniques (maybe equipments too, later)
+- Players have a weapon equipped, a weapon on his back, two skills and two techniques (maybe equipments too, later)
 - _Skills_ are simple actions (e.g.: dash, hight jump, taunt, retreat)
 - _Techniques_ are unique abilities that perform some kind of special effect, sometimes requiring the player to be equipped with some type of weapon/equipment
 

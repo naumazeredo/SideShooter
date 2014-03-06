@@ -3,17 +3,43 @@ using System.Collections;
 
 public class PlayerScript : MonoBehaviour
 {
+  // Player specific
+  public int playerID = 1;
+
+  // Rebinding
+  RebindData keys;
+  /*
+  [SerializeField]
+  string keyRight,
+    keyLeft,
+    keyJet,
+    keyFire,
+    keySkill1,
+    keySkill2,
+    keySkill3,
+    keySkill4;
+  */
+
   // Move
   bool lookingRight = true;
   Vector2 lookingDir = Vector2.right;
-  public float speed = 2.5f;
+  public float speedBase = 2.5f;
+  public float speedMod = 1f;
+  [System.NonSerialized] public bool canMove = true;
+  [System.NonSerialized] public bool onGround = false;
 
-  // Jump
-  public float jumpSpeed = 5.0f;
-  bool onGround = false;
-  public float jumpMaxTime = 0.3f;
-  public float jumpCurTime = 0.0f;
-  public bool jumpCountingTime = false; 
+  // Jetpack
+  [System.NonSerialized] public bool jetActive = false;
+  [System.NonSerialized] public bool jetCanActive = true;
+  public float jetForceBase = 13f;
+  public float jetForceMod = 1f;
+  float jetMaxTime = 0.5f;
+  float jetCurTime = 0f;
+  ParticleSystem jetEmitter;
+
+   // Skills
+  //public SkillScript[] skill = new SkillScript[4];
+  public SkillScript[] skill = new SkillScript[4];
 
   // Collision
   Transform colDL,
@@ -28,6 +54,17 @@ public class PlayerScript : MonoBehaviour
   // Use this for initialization
   void Start()
   {
+    // Rebinding
+    keys = RebindData.GetRebindManager();
+
+    // Jetpack
+    jetEmitter = transform.FindChild("jetpack").GetComponent<ParticleSystem>();
+
+    // Get Basic Skills
+    skill[0] = GetComponent<JumpSkillScript>();
+    skill[1] = GetComponent<DashSkillScript>();
+
+    // Collision
     BoxCollider2D box = GetComponent<BoxCollider2D>();
     Vector2 center = box.center, size = box.size;
     colDL = transform.FindChild("collision").FindChild("dl").transform;
@@ -52,6 +89,9 @@ public class PlayerScript : MonoBehaviour
   // Update is called once per frame
   void Update()
   {
+    // Jetpack
+    if (jetActive && !jetEmitter.enableEmission) jetEmitter.enableEmission = true;
+    else if (!jetActive && jetEmitter.enableEmission) jetEmitter.enableEmission = false;
   }
 
   void FixedUpdate()
@@ -59,48 +99,18 @@ public class PlayerScript : MonoBehaviour
     InputMovement();
 
     // if falling, verify if lost ground contact
-    if (rigidbody2D.velocity.y < 0 && onGround)
-    {
-      RaycastHit2D hit1 = Physics2D.Raycast(colDL.position, -Vector2.up, 0.05f, 1 << 8);
-      RaycastHit2D hit2 = Physics2D.Raycast(colDM.position, -Vector2.up, 0.05f, 1 << 8);
-      RaycastHit2D hit3 = Physics2D.Raycast(colDR.position, -Vector2.up, 0.05f, 1 << 8);
-      if (!(hit1 || hit2 || hit3))
-      {
-        onGround = false;
-      }
-    }
+    if (rigidbody2D.velocity.y < 0 && onGround) IsGrounded();
   }
 
   // Collision
   void OnCollisionEnter2D(Collision2D coll)
   {
-    // Detect ground collision
-    RaycastHit2D hit1 = Physics2D.Raycast(colDL.position, -Vector2.up, 0.05f, 1 << 8);
-    RaycastHit2D hit2 = Physics2D.Raycast(colDM.position, -Vector2.up, 0.05f, 1 << 8);
-    RaycastHit2D hit3 = Physics2D.Raycast(colDR.position, -Vector2.up, 0.05f, 1 << 8);
-    if (hit1 || hit2 || hit3)
-    {
-      onGround = true;
-      jumpCountingTime = false;
-    }
-
-    // Detect head collision
-    if (!onGround && jumpCountingTime)
-    {
-      hit1 = Physics2D.Raycast(colUL.position, Vector2.up, 0.05f, 1 << 8);
-      hit2 = Physics2D.Raycast(colUM.position, Vector2.up, 0.05f, 1 << 8);
-      hit3 = Physics2D.Raycast(colUR.position, Vector2.up, 0.05f, 1 << 8);
-      if (hit1 || hit2 || hit3)
-      {
-        jumpCountingTime = false;
-        jumpCurTime = jumpMaxTime;
-      }
-    }
+    IsGrounded();
   }
 
-  int GetDirection()
+  public Vector2 GetDirection()
   {
-    return (lookingRight ? 1 : -1);
+    return lookingDir;
   }
 
   bool CanMoveForward(Vector2 dir)
@@ -117,20 +127,23 @@ public class PlayerScript : MonoBehaviour
   private void InputMovement()
   {
     // Basic movement
-    if (Input.GetKey(KeyCode.D) && CanMoveForward(lookingDir))
+    if (canMove)
     {
-      lookingRight = true;
-      rigidbody2D.velocity = new Vector2(speed, rigidbody2D.velocity.y);
-    }
-    else if (Input.GetKey(KeyCode.A) && CanMoveForward(lookingDir))
-    {
-      lookingRight = false;
-      rigidbody2D.velocity = new Vector2(-speed, rigidbody2D.velocity.y);
-    }
-    else
-    {
-      // if not pressing left nor right, stop horizontal movement
-      rigidbody2D.velocity = new Vector2(0f, rigidbody2D.velocity.y);
+      // Rebinding
+      if (keys.GetKey("P" + playerID + "Right") && CanMoveForward(lookingDir))
+      {
+        lookingRight = true;
+        rigidbody2D.velocity = new Vector2(speedBase * speedMod, rigidbody2D.velocity.y);
+      }
+      else if (keys.GetKey("P" + playerID + "Left") && CanMoveForward(lookingDir))
+      {
+        lookingRight = false;
+        rigidbody2D.velocity = new Vector2(-speedBase * speedMod, rigidbody2D.velocity.y);
+      }
+      else
+      {
+        rigidbody2D.velocity = new Vector2(0f, rigidbody2D.velocity.y);
+      }
     }
 
     // Update direction
@@ -138,34 +151,90 @@ public class PlayerScript : MonoBehaviour
     {
       transform.localScale = new Vector3(1f, transform.localScale.y, 1f);
       lookingDir = Vector2.right;
+
+      // SHITTY FIX for jetpack
+      jetEmitter.transform.localScale = new Vector3(1f, 1f, 1f);
     }
     else if (!lookingRight && transform.localScale.x != -1f)
     {
       transform.localScale = new Vector3(-1f, transform.localScale.y, 1f);
       lookingDir = -Vector2.right;
+
+      // SHITTY FIX for jetpack
+      jetEmitter.transform.localScale = new Vector3(-1f, 1f, 1f);
     }
 
-    // Jump
-    if (jumpCountingTime)
+    // Skills
+    // Initiate skills with input
+    for (int i = 1; i <= 4; ++i)
     {
-      jumpCurTime += Time.deltaTime;
+      if (keys.GetKeyDown("P" + playerID + "Skill" + i))
+      {
+        if (skill[i - 1]) skill[i - 1].PerformSkill();
+      }
     }
 
-    if (Input.GetKey(KeyCode.Space))
+    // Jetpack
+    // Jetpack counts time when is activated
+    // When it turns deactivated or the max time using it reaches
+    // it begins to count down 'til it reaches zero
+    // It can only be reactivated when the time reaches zero
+    if (jetActive)
     {
-      // Initial jump
-      if (onGround)
+      if (jetCurTime < jetMaxTime)
       {
-        rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, jumpSpeed);
-        onGround = false;
-        jumpCurTime = 0f;
-        jumpCountingTime = true;
+        jetCurTime += Time.deltaTime;
       }
-      // Accumulation, so player can jump higher
-      else if (jumpCurTime < jumpMaxTime)
+      else
       {
-        rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, jumpSpeed);
+        jetCurTime = jetMaxTime;
+        jetActive = false;
       }
     }
+    else
+    {
+      if (jetCurTime > 0f)
+      {
+        jetCurTime -= Time.deltaTime;
+      }
+      else
+      {
+        jetCurTime = 0f;
+        jetCanActive = true;
+      }
+    }
+
+    if (keys.GetKeyDown("P" + playerID + "Jet") && !jetActive && jetCanActive)
+    {
+      jetActive = true;
+      jetCanActive = false;
+    }
+
+    if (keys.GetKeyUp("P" + playerID + "Jet"))
+    {
+      jetActive = false;
+    }
+
+    if (keys.GetKey("P" + playerID + "Jet") && jetActive)
+    {
+      // Add force
+      rigidbody2D.AddForce(Vector2.up * jetForceBase * jetForceMod);
+      IsGrounded();
+    }
+  }
+
+  private void IsGrounded()
+  {
+    RaycastHit2D hit1 = Physics2D.Raycast(colDL.position, -Vector2.up, 0.05f, 1 << 8);
+    RaycastHit2D hit2 = Physics2D.Raycast(colDM.position, -Vector2.up, 0.05f, 1 << 8);
+    RaycastHit2D hit3 = Physics2D.Raycast(colDR.position, -Vector2.up, 0.05f, 1 << 8);
+    if (hit1 || hit2 || hit3) onGround = true;
+    else onGround = false;
+  }
+
+  public void SetGravityInfluence(bool influenced)
+  {
+    if (influenced) rigidbody2D.gravityScale = 1f;
+    else rigidbody2D.gravityScale = 0f;
   }
 }

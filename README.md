@@ -30,7 +30,15 @@ Design
 - Dash: player thrusts forward a small distance, but he can be hit during it. Can be used mid-air. Can attack with melee weapons durint it
 - Retreat: player thrusts backwards a small distance, but he can be hit during it. (used mid-air?)
 - Taunt: player provokes all AI-controlled enemies in a small/medium range, forcing all enemies provoked to go attack him
-- Roll: player rolls on ground, prevent all damage and avoiding all projectiles during the roll. Cannot be used mid-air
+- Sprint: player runs! (for a small time)
+- Jump: yeah, player have to skill jump to jump...
+- Crouch: player crouchs, reducing the collision box and enabling the player to shoot lower
+- Defend: player enters a defensive state, blocking damage for a small time
+
+#####Non-basic Skills
+- Counter-attack (Defend): melee attacks after defend
+- Roll (Defend + Dash): player rolls on ground, prevent all damage and avoiding all projectiles during the roll. Cannot be used mid-air
+
 
 ####Techniques
 #####Format: name \[requirements\]\[damage\]\[cd\]: description
@@ -42,10 +50,16 @@ Design
 #####Sword Techniques
 - Omnislash \[cutting close-combat weapons\]\[120%\]\[12s\]: player dashes through enemies, attacking them and avoiding any physical damage while dashing. Attacks 5 times maximum. Can hit the same enemy multiple times
 - Dual Wielding \[sword-type weapons\]\[passive\]: lets player equip/carry two swords
+
+#####Any Type
 - Berserker \[any weapons / gloves?\]\[100%\]\[12s\]: player enters in a frenzy, attacking faster but receiving more damage
 
 #####Naum's ideas
 - Santoryu \[Roronoa Zoro\]: lets you equip three swords and carry other three. In reference to One Piece's Roronoa Zoro
+
+####Guns
+#####Special
+- Pewgun: Cazuza recorded "pew"
 
 ###To discuss
 - Game Objective

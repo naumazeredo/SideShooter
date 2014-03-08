@@ -10,7 +10,7 @@ public class RebindMenu : MonoBehaviour
   string menuButton = "Menu";
 
   RebindData rebindData;
-  List<RebindKey> rebindKeys;
+  Dictionary<string, RebindKey> rebindKeys;
 
   void Start()
   {
@@ -36,18 +36,18 @@ public class RebindMenu : MonoBehaviour
       GUILayout.Label("Code");
       GUILayout.EndHorizontal();
 
-      for (int i = 0; i < rebindKeys.Count; ++i)
+      foreach (string key in rebindKeys.Keys)
       {
         GUILayout.BeginHorizontal();
-        GUILayout.Label(rebindKeys[i].name);
+        GUILayout.Label(key);
 
         string keyName;
-        if (rebindKeys[i].type == RebindKey.Type.Button) keyName = rebindKeys[i].keyCode.ToString();
-        else keyName = rebindKeys[i].axisName + (rebindKeys[i].axisPositive ? "+" : "-");
+        if (rebindKeys[key].type == RebindKey.Type.Button) keyName = rebindKeys[key].keyCode.ToString();
+        else keyName = rebindKeys[key].axisName + (rebindKeys[key].axisPositive ? "+" : "-");
 
         if (GUILayout.Button(keyName))
         {
-          rebindData.BindKey(rebindKeys[i].name);
+          rebindData.BindKey(key);
         }
 
         GUILayout.EndHorizontal();

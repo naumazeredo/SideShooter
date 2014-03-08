@@ -9,12 +9,7 @@ public class RebindData : MonoBehaviour
   [SerializeField]
   List<RebindKey> defaultKeys;
 
-  // Show rebound keys in Inspector for Debugging issues
-  // rebindKeys is overwriten in the Init, so it's useless
-  // to change them in Inspector with game not running
-  [SerializeField]
-  List<RebindKey> rebindKeys;
-
+  Dictionary<string, RebindKey> rebindKeys;
   List<RebindKey> savedKeys;
 
   List<KeyCode> keys;
@@ -36,6 +31,7 @@ public class RebindData : MonoBehaviour
   // Option to save keys on registry or on file in game folder
   [SerializeField]
   bool saveOnRegistry = true;
+
   [SerializeField]
   string saveFile = "config.txt";
 #endif
@@ -50,7 +46,7 @@ public class RebindData : MonoBehaviour
   {
     // Set default keys
     savedKeys = LoadKeys();
-    rebindKeys = CopyKeys(savedKeys);
+    rebindKeys = CopyKeysToDict(savedKeys);
     init = true;
   }
 
@@ -135,10 +131,7 @@ public class RebindData : MonoBehaviour
     // Assign new key to rebindKey with same name
     if (keyAssigned)
     {
-      for (int i = 0; i < rebindKeys.Count; ++i)
-      {
-        if (rebindKeys[i].name == name) rebindKeys[i] = newkey;
-      }
+      rebindKeys[name] = newkey;
     }
 
     return keyAssigned;
@@ -164,7 +157,8 @@ public class RebindData : MonoBehaviour
     if (binding) return false;
 
     RebindKey key = new RebindKey();
-    key = FindKey(name);
+    //key = FindKey(name);
+    key = rebindKeys[name];
 
     if (key.type == RebindKey.Type.Button)
     {
@@ -183,7 +177,8 @@ public class RebindData : MonoBehaviour
     if (binding) return false;
 
     RebindKey key = new RebindKey();
-    key = FindKey(name);
+    //key = FindKey(name);
+    key = rebindKeys[name];
 
     if (key.type == RebindKey.Type.Button)
     {
@@ -203,8 +198,8 @@ public class RebindData : MonoBehaviour
     if (binding) return false;
 
     RebindKey key = new RebindKey();
-
-    key = FindKey(name);
+    //key = FindKey(name);
+    key = rebindKeys[name];
 
     if (key.type == RebindKey.Type.Button)
     {
@@ -226,17 +221,6 @@ public class RebindData : MonoBehaviour
     else return false;
   }
 
-  RebindKey FindKey(string name)
-  {
-    for (int i = 0; i < rebindKeys.Count; ++i)
-    {
-      if (rebindKeys[i].name == name) return rebindKeys[i];
-    }
-
-    //FIX should throw exception!!
-    return new RebindKey();
-  }
-
   // Copy of list by value!
   List<RebindKey> CopyKeys(List<RebindKey> source)
   {
@@ -248,7 +232,25 @@ public class RebindData : MonoBehaviour
     return copy;
   }
 
+  // Copy of list by value!
+  Dictionary<string, RebindKey> CopyKeysToDict(List<RebindKey> source)
+  {
+    Dictionary<string, RebindKey> copy = new Dictionary<string, RebindKey>();
+
+    for (int i = 0; i < source.Count; ++i)
+      copy.Add(source[i].name, source[i]);
+
+    return copy;
+  }
+
+  /*
   public List<RebindKey> GetCurrentKeys()
+  {
+    if (!init) Init();
+    return new List<RebindKey>(rebindKeys.Values);
+  }
+  */
+  public Dictionary<string, RebindKey> GetCurrentKeys()
   {
     if (!init) Init();
     return rebindKeys;
@@ -256,7 +258,7 @@ public class RebindData : MonoBehaviour
 
   public void RestoreDefaultKeys()
   {
-    rebindKeys = CopyKeys(defaultKeys);
+    rebindKeys = CopyKeysToDict(defaultKeys);
   }
 
   public void SaveKeys()
@@ -269,9 +271,8 @@ public class RebindData : MonoBehaviour
     string keyAxisName = "";
     string keyAxisPositive = "";
 
-    for (int i = 0; i < rebindKeys.Count; ++i)
+    foreach(RebindKey key in rebindKeys.Values)
     {
-      RebindKey key = rebindKeys[i];
       keyNames += key.name + "*";
       keyType += key.type.ToString() + "*";
       keyCode += ((int)key.keyCode).ToString() + "*";
@@ -340,12 +341,12 @@ public class RebindData : MonoBehaviour
     {
       // Update state of every joy axis key
       // This is necessary to simulate GetKeyDown and GetKeyUp with axis
-      for (int i = 0; i < rebindKeys.Count; ++i)
+      foreach (string key in rebindKeys.Keys)
       {
-        if (rebindKeys[i].type == RebindKey.Type.Axis)
+        if (rebindKeys[key].type == RebindKey.Type.Axis)
         {
-          rebindKeys[i].keyDownOld = rebindKeys[i].keyDown;
-          rebindKeys[i].keyDown = GetAxis(rebindKeys[i]);
+          rebindKeys[key].keyDownOld = rebindKeys[key].keyDown;
+          rebindKeys[key].keyDown = GetAxis(rebindKeys[key]);
         }
       }
     }

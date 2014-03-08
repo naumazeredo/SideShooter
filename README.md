@@ -6,11 +6,11 @@ SideShooter (temporary name)
 Design
 ------
 - All players start equal. No classes, races or unique weapons (maybe races or classes, later)
-- Players have a weapon equipped, a weapon on his back, two skills and two techniques (maybe equipments too, later)
+- Players have a weapon equipped, a weapon on his back, a jetpack, three skills and two techniques (maybe equipments too, later)
 - _Skills_ are simple actions (e.g.: dash, hight jump, taunt, retreat)
 - _Techniques_ are unique abilities that perform some kind of special effect, sometimes requiring the player to be equipped with some type of weapon/equipment
 
-- Players can move right and left, jump, shoot/attack and use a jetpack
+- Players can move right and left, shoot/attack and use a jetpack
 - Weapons can be close-combat or ranged
 - Ranged weapons can have projectiles or not (small bullet guns will have no projectiles. Rocket-propellers and bows/crossbows must have)
 
@@ -53,16 +53,50 @@ Design
 
 #####Any Type
 - Berserker \[any weapons / gloves?\]\[100%\]\[12s\]: player enters in a frenzy, attacking faster but receiving more damage
+- Refraction (DotA): player avoids 7 instances of damage and gain bonus damage in 7 instances too
+
+#####Passive Techniques
+- Strygwyr's Blood (DotA): player gets faster and stronger for every weak enemy nearby
 
 #####Naum's ideas
 - Santoryu \[Roronoa Zoro\]: lets you equip three swords and carry other three. In reference to One Piece's Roronoa Zoro
 
 ####Guns
+
+#####
+- Mini-gun
+- Rocket Propeller Guns: player shoots a rocket that goes straight forward. Than him enters a recharge period to be able to shoot again
+
 #####Special
 - Pewgun: Cazuza recorded "pew"
+- Sniper's Rifle: weapon with a Risk of Rain counter after shot
+- Spy's Watch (TF2 Spy's Watch): player turns invisible
+- Buster Sword (FFVII Cloud's Sword)
+- Pickaxe (Minecraft)
+- Crying Tears (Binding of Isaac): player shoots tears
 
 ###To discuss
 - Game Objective
 - Game Environment (also what are the enemies)
-- Boss prizes (items!!)
+- Boss prizes (items!)
 - Swapping weapons during skirmish/campaign
+
+####New Ideas
+- Sidekickers(?): Small aliens that can help the players
+
+####To Implement
+- (High-end) Smoke particles when player dash/retreat touching the ground
+- Weapons: Base Weapon Class (weapon weight, damage), Derived Gun Class (fire rate, bullet damage), Derived Projectile Gun Class (projectile, gun recoil, recharge time)
+- Action Log: to learning mechanism
+    Log every player weapon: saves it timestamp when initialized and saves its duration
+- Skill/Technique/Action Hierarchy: to learning mechanism
+    Tree per skill/technique/action
+    Every branch saves a time in the past and another action player must have done to perform a new skill/technique
+
+    Example:
+
+    Jump Skill
+    |
+    |
+    Crouch Skill -> still active => Perform "High Jump"
+

@@ -8,17 +8,6 @@ public class PlayerScript : MonoBehaviour
 
   // Rebinding
   RebindData keys;
-  /*
-  [SerializeField]
-  string keyRight,
-    keyLeft,
-    keyJet,
-    keyFire,
-    keySkill1,
-    keySkill2,
-    keySkill3,
-    keySkill4;
-  */
 
   // Move
   bool lookingRight = true;
@@ -28,7 +17,16 @@ public class PlayerScript : MonoBehaviour
   [System.NonSerialized] public bool canMove = true;
   [System.NonSerialized] public bool onGround = false;
 
+  // Rope
+  //[System.NonSerialized] 
+  public bool onRope = false;
+  public bool overRope = false;
+  public float ropeVelocity = 1f;
+  public float gravityScale = 1f;
+  BoxCollider2D groundCollider;
+
   // Jetpack
+  [System.NonSerialized] public bool jetFreeze = false; // Used to avoid jetpack activation when performing some actions
   [System.NonSerialized] public bool jetActive = false;
   [System.NonSerialized] public bool jetCanActive = true;
   public float jetForceBase = 13f;
@@ -38,8 +36,11 @@ public class PlayerScript : MonoBehaviour
   ParticleSystem jetEmitter;
 
    // Skills
-  //public SkillScript[] skill = new SkillScript[4];
-  public SkillScript[] skill = new SkillScript[4];
+  [SerializeField] int skillCount = 2;
+  [SerializeField] SkillScript[] skill;
+
+  // Techniques
+  
 
   // Collision
   Transform colDL,
@@ -57,10 +58,14 @@ public class PlayerScript : MonoBehaviour
     // Rebinding
     keys = RebindData.GetRebindManager();
 
+    // Rope
+    groundCollider = GetComponent<BoxCollider2D>();
+
     // Jetpack
     jetEmitter = transform.FindChild("jetpack").GetComponent<ParticleSystem>();
 
     // Get Basic Skills
+    skill = new SkillScript[skillCount];
     skill[0] = GetComponent<JumpSkillScript>();
     skill[1] = GetComponent<DashSkillScript>();
 
@@ -89,6 +94,8 @@ public class PlayerScript : MonoBehaviour
   // Update is called once per frame
   void Update()
   {
+    InputMovement();
+
     // Jetpack
     if (jetActive && !jetEmitter.enableEmission) jetEmitter.enableEmission = true;
     else if (!jetActive && jetEmitter.enableEmission) jetEmitter.enableEmission = false;
@@ -96,8 +103,6 @@ public class PlayerScript : MonoBehaviour
 
   void FixedUpdate()
   {
-    InputMovement();
-
     // if falling, verify if lost ground contact
     if (rigidbody2D.velocity.y < 0 && onGround) IsGrounded();
   }
@@ -164,13 +169,34 @@ public class PlayerScript : MonoBehaviour
       jetEmitter.transform.localScale = new Vector3(-1f, 1f, 1f);
     }
 
+    // Rope
+    bool kup = keys.GetKey("P" + playerID + "Up");
+    bool kdown = keys.GetKey("P" + playerID + "Down");
+    if (kup && !onRope && overRope)
+    {
+      onRope = true;
+      OnRope();
+    }
+
+    if (onRope)
+    {
+      if (kup)
+        rigidbody2D.velocity = new Vector2(0f, ropeVelocity);
+
+      if (kdown)
+        rigidbody2D.velocity = new Vector2(0f, -ropeVelocity);
+
+      if ((kup && kdown) || (!kup && !kdown))
+        rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, 0f);
+    }
+
     // Skills
     // Initiate skills with input
-    for (int i = 1; i <= 4; ++i)
+    for (int i = 0; i < skillCount; ++i)
     {
       if (keys.GetKeyDown("P" + playerID + "Skill" + i))
       {
-        if (skill[i - 1]) skill[i - 1].PerformSkill();
+        if (skill[i]) skill[i].PerformSkill();
       }
     }
 
@@ -204,22 +230,24 @@ public class PlayerScript : MonoBehaviour
       }
     }
 
-    if (keys.GetKeyDown("P" + playerID + "Jet") && !jetActive && jetCanActive)
+    if (!jetFreeze)
     {
-      jetActive = true;
-      jetCanActive = false;
-    }
+      if (keys.GetKeyDown("P" + playerID + "Jet") && !jetActive && jetCanActive)
+      {
+        jetActive = true;
+        jetCanActive = false;
+      }
 
-    if (keys.GetKeyUp("P" + playerID + "Jet"))
-    {
-      jetActive = false;
-    }
+      if (keys.GetKeyUp("P" + playerID + "Jet"))
+      {
+        jetActive = false;
+      }
 
-    if (keys.GetKey("P" + playerID + "Jet") && jetActive)
-    {
-      // Add force
-      rigidbody2D.AddForce(Vector2.up * jetForceBase * jetForceMod);
-      IsGrounded();
+      if (keys.GetKey("P" + playerID + "Jet") && jetActive)
+      {
+        rigidbody2D.AddForce(Vector2.up * jetForceBase * jetForceMod);
+        IsGrounded();
+      }
     }
   }
 
@@ -232,9 +260,73 @@ public class PlayerScript : MonoBehaviour
     else onGround = false;
   }
 
-  public void SetGravityInfluence(bool influenced)
+  public void SetGravityInfluence (bool influenced)
   {
     if (influenced) rigidbody2D.gravityScale = 1f;
     else rigidbody2D.gravityScale = 0f;
+  }
+
+  void OnTriggerStay2D(Collider2D coll)
+  {
+    // Rope
+    bool verified = false;
+    if (coll.gameObject.tag == "Rope")
+    {
+      BoxCollider2D box = coll.gameObject.GetComponent<BoxCollider2D>();
+
+      if (box.OverlapPoint(new Vector2(colUM.position.x, colUM.position.y)))
+      {
+        overRope = true;
+        verified = true;
+      }
+      else if (box.OverlapPoint(new Vector2(colDM.position.x, colDM.position.y)))
+      {
+        overRope = true;
+        verified = true;
+      } 
+    }
+
+    if (!verified)
+    {
+      OffRope();
+    }
+  }
+
+  /*
+  void OnTriggerEnter2D(Collider2D coll)
+  {
+    if (coll.gameObject.tag == "Rope")
+    {
+      overRope = true;
+    }
+  }
+  */
+
+  void OnTriggerExit2D(Collider2D coll)
+  {
+    if (coll.gameObject.tag == "Rope")
+    {
+      OffRope();
+    }
+  }
+
+  void OnRope()
+  {
+    rigidbody2D.velocity = new Vector2(0f, 0f);
+    gravityScale = rigidbody2D.gravityScale;
+    rigidbody2D.gravityScale = 0f;
+
+    // Deactivate ground collision
+    groundCollider.isTrigger = true;
+  }
+
+  void OffRope()
+  {
+    overRope = false;
+    onRope = false;
+    rigidbody2D.gravityScale = gravityScale;
+
+    // Reactivate ground collision
+    groundCollider.isTrigger = false;
   }
 }

@@ -12,7 +12,7 @@ public abstract class SkillScript : MonoBehaviour
     player = GetComponent<PlayerScript>();
   }
 
-  void Update()
+  void FixedUpdate()
   {
     if (performingSkill) StepSkill();
   }

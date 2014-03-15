@@ -9,7 +9,7 @@ public class DashSkillScript : TimedSkillScript
   {
     performingSkill = true;
     player.canMove = false;
-    player.jetCanActive = false;
+    player.jetFreeze = true;
     player.jetActive = false;
     PerformDash();
   }
@@ -25,11 +25,11 @@ public class DashSkillScript : TimedSkillScript
     base.StopSkill();
     player.rigidbody2D.velocity = new Vector2(0f, 0f);
     player.canMove = true;
+    player.jetFreeze = false;
   }
 
   void PerformDash()
   {
     player.rigidbody2D.velocity = player.GetDirection() * dashSpeed;
-    player.jetCanActive = false;
   }
 }

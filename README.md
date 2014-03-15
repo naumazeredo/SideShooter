@@ -61,7 +61,11 @@ Design
 #####Naum's ideas
 - Santoryu \[Roronoa Zoro\]: lets you equip three swords and carry other three. In reference to One Piece's Roronoa Zoro
 
-####Guns
+####Weapons
+
+#####Magic Weapons
+- Grimoire: spawn creatures!!!
+- Wand: shoots a magic projectile
 
 #####
 - Mini-gun

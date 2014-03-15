@@ -154,7 +154,8 @@ public class RebindData : MonoBehaviour
   public bool GetKey(string name)
   {
     // Avoids actions when binding
-    if (binding) return false;
+    if (binding) 
+      return false;
 
     RebindKey key = new RebindKey();
     //key = FindKey(name);
@@ -174,7 +175,8 @@ public class RebindData : MonoBehaviour
   public bool GetKeyDown(string name)
   {
     // Avoids actions when binding
-    if (binding) return false;
+    if (binding)
+      return false;
 
     RebindKey key = new RebindKey();
     //key = FindKey(name);

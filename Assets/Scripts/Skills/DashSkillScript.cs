@@ -17,7 +17,12 @@ public class DashSkillScript : TimedSkillScript
   protected override void StepSkill()
   {
     base.StepSkill();
-    PerformDash();
+
+    // Player can grab the rope mid-dash
+    if (player.onRope)
+      StopSkill();
+    else
+      PerformDash();
   }
 
   protected override void StopSkill()

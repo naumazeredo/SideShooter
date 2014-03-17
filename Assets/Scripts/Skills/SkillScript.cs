@@ -4,12 +4,12 @@ using System.Collections;
 [RequireComponent (typeof(PlayerScript))]
 public abstract class SkillScript : MonoBehaviour
 {
-  protected PlayerScript player;
+  protected PlayerMovementScript player;
   protected bool performingSkill = false;
 
-  protected virtual void Start()
+  protected virtual void Awake()
   {
-    player = GetComponent<PlayerScript>();
+    player = GetComponent<PlayerMovementScript>();
   }
 
   void FixedUpdate()

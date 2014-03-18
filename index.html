@@ -31,37 +31,147 @@
     <!-- MAIN CONTENT -->
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
-        <h3>
-<a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
+        <h1>
+<a name="sideshooter-temporary-name" class="anchor" href="#sideshooter-temporary-name"><span class="octicon octicon-link"></span></a>SideShooter (temporary name)</h1>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+<p><em>Style</em>: 2D Rogue-like semiRPG Sci-fi</p>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
-</code></pre>
+<h2>
+<a name="design" class="anchor" href="#design"><span class="octicon octicon-link"></span></a>Design</h2>
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+<ul>
+<li>All players start equal. No classes, races or unique weapons (maybe races or classes, later)</li>
+<li>Players have a weapon equipped, a weapon on his back, a jetpack, three skills and two techniques (maybe equipments too, later)</li>
+<li>
+<em>Skills</em> are simple actions (e.g.: dash, hight jump, taunt, retreat)</li>
+<li><p><em>Techniques</em> are unique abilities that perform some kind of special effect, sometimes requiring the player to be equipped with some type of weapon/equipment</p></li>
+<li><p>Players can move right and left, shoot/attack and use a jetpack</p></li>
+<li>Weapons can be close-combat or ranged</li>
+<li><p>Ranged weapons can have projectiles or not (small bullet guns will have no projectiles. Rocket-propellers and bows/crossbows must have)</p></li>
+<li><p>Players start with a set of basic <em>Skills</em> (Dash, Retreat, Taunt, Roll) and a set of basic <em>Techniques</em> (Rapid-fire, Explosive-shot, Pierce-shot)</p></li>
+<li>Players learn new <em>skills</em> and <em>techniques</em> by satisfying certain conditions</li>
+<li>
+<em>Skills</em> are learned only by a combination and use of other <em>skills</em>
+</li>
+<li><p><em>Techniques</em> require special conditions and combinations to be learned. Generally, it requires a type of weapon to be equipped and some skills to be used (e.g.: Omnislash will be learned if the player dashes through a serie of enemies attacking with a sword-type weapon). It can also require some environment characteristic in conjuction with other specific events/actions.</p></li>
+<li><p>Players can carry two weapons, one equipped and the other carried in he's back (with certain <em>techniques</em> he can carry some more (e.g.: Dual Wielding Sword let the player equip a pair of swords and carry a pair. ).</p></li>
+</ul><h4>
+<a name="jetpack-and-jump" class="anchor" href="#jetpack-and-jump"><span class="octicon octicon-link"></span></a>Jetpack and Jump</h4>
 
-<h3>
-<a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
+<ul>
+<li>Jump modifies the player's velocity instantly, giving a initial impulse</li>
+<li>Jetpack <em>must</em> not give a great acceleration (it can cancels the gravity, maybe a little bit more)</li>
+</ul><h4>
+<a name="skills" class="anchor" href="#skills"><span class="octicon octicon-link"></span></a>Skills</h4>
 
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
+<h5>
+<a name="basic-skills" class="anchor" href="#basic-skills"><span class="octicon octicon-link"></span></a>Basic Skills</h5>
 
-<h3>
-<a name="rather-drive-stick" class="anchor" href="#rather-drive-stick"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
+<ul>
+<li>Dash: player thrusts forward a small distance, but he can be hit during it. Can be used mid-air. Can attack with melee weapons durint it</li>
+<li>Retreat: player thrusts backwards a small distance, but he can be hit during it. (used mid-air?)</li>
+<li>Taunt: player provokes all AI-controlled enemies in a small/medium range, forcing all enemies provoked to go attack him</li>
+<li>Sprint: player runs! (for a small time)</li>
+<li>Jump: yeah, player have to skill jump to jump...</li>
+<li>Crouch: player crouchs, reducing the collision box and enabling the player to shoot lower</li>
+<li>Defend: player enters a defensive state, blocking damage for a small time</li>
+</ul><h5>
+<a name="non-basic-skills" class="anchor" href="#non-basic-skills"><span class="octicon octicon-link"></span></a>Non-basic Skills</h5>
 
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+<ul>
+<li>Counter-attack (Defend): melee attacks after defend</li>
+<li>Roll (Defend + Dash): player rolls on ground, prevent all damage and avoiding all projectiles during the roll. Cannot be used mid-air</li>
+</ul><h4>
+<a name="techniques" class="anchor" href="#techniques"><span class="octicon octicon-link"></span></a>Techniques</h4>
 
-<h3>
-<a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
+<h5>
+<a name="format-name-requirementsdamagecd-description" class="anchor" href="#format-name-requirementsdamagecd-description"><span class="octicon octicon-link"></span></a>Format: name [requirements][damage][cd]: description</h5>
 
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
+<h5>
+<a name="basic-techniques" class="anchor" href="#basic-techniques"><span class="octicon octicon-link"></span></a>Basic Techniques</h5>
 
-<h3>
-<a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
+<ul>
+<li>Rapid-fire [ranged bullet? weapons][100%][5s]: player shoots 4 shots rapidly</li>
+<li>Explosive-shot [ranged bullet? weapons][120%][8s]: player shoots a explosive shot, causing damage in the area it exploded</li>
+<li>Pierce-shot [ranged bullet? weapons][100%][5s]: player shoots a piercing shot that goes through enemies, hitting more than one enemy</li>
+</ul><h5>
+<a name="sword-techniques" class="anchor" href="#sword-techniques"><span class="octicon octicon-link"></span></a>Sword Techniques</h5>
 
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
+<ul>
+<li>Omnislash [cutting close-combat weapons][120%][12s]: player dashes through enemies, attacking them and avoiding any physical damage while dashing. Attacks 5 times maximum. Can hit the same enemy multiple times</li>
+<li>Dual Wielding [sword-type weapons][passive]: lets player equip/carry two swords</li>
+</ul><h5>
+<a name="any-type" class="anchor" href="#any-type"><span class="octicon octicon-link"></span></a>Any Type</h5>
+
+<ul>
+<li>Berserker [any weapons / gloves?][100%][12s]: player enters in a frenzy, attacking faster but receiving more damage</li>
+<li>Refraction (DotA): player avoids 7 instances of damage and gain bonus damage in 7 instances too</li>
+</ul><h5>
+<a name="passive-techniques" class="anchor" href="#passive-techniques"><span class="octicon octicon-link"></span></a>Passive Techniques</h5>
+
+<ul>
+<li>Strygwyr's Blood (DotA): player gets faster and stronger for every weak enemy nearby</li>
+</ul><h5>
+<a name="naums-ideas" class="anchor" href="#naums-ideas"><span class="octicon octicon-link"></span></a>Naum's ideas</h5>
+
+<ul>
+<li>Santoryu [Roronoa Zoro]: lets you equip three swords and carry other three. In reference to One Piece's Roronoa Zoro</li>
+</ul><h4>
+<a name="weapons" class="anchor" href="#weapons"><span class="octicon octicon-link"></span></a>Weapons</h4>
+
+<h5>
+<a name="magic-weapons" class="anchor" href="#magic-weapons"><span class="octicon octicon-link"></span></a>Magic Weapons</h5>
+
+<ul>
+<li>Grimoire: spawn creatures!!!</li>
+<li>Wand: shoots a magic projectile</li>
+</ul><ul>
+<li>Mini-gun</li>
+<li>Rocket Propeller Guns: player shoots a rocket that goes straight forward. Than him enters a recharge period to be able to shoot again</li>
+</ul><h5>
+<a name="special" class="anchor" href="#special"><span class="octicon octicon-link"></span></a>Special</h5>
+
+<ul>
+<li>Pewgun: Cazuza recorded "pew"</li>
+<li>Sniper's Rifle: weapon with a Risk of Rain counter after shot</li>
+<li>Spy's Watch (TF2 Spy's Watch): player turns invisible</li>
+<li>Buster Sword (FFVII Cloud's Sword)</li>
+<li>Pickaxe (Minecraft)</li>
+<li>Crying Tears (Binding of Isaac): player shoots tears</li>
+</ul><h3>
+<a name="to-discuss" class="anchor" href="#to-discuss"><span class="octicon octicon-link"></span></a>To discuss</h3>
+
+<ul>
+<li>Game Objective</li>
+<li>Game Environment (also what are the enemies)</li>
+<li>Boss prizes (items!)</li>
+<li>Swapping weapons during skirmish/campaign</li>
+</ul><h4>
+<a name="new-ideas" class="anchor" href="#new-ideas"><span class="octicon octicon-link"></span></a>New Ideas</h4>
+
+<ul>
+<li>Sidekickers(?): Small aliens that can help the players</li>
+</ul><h4>
+<a name="to-implement" class="anchor" href="#to-implement"><span class="octicon octicon-link"></span></a>To Implement</h4>
+
+<ul>
+<li>(High-end) Smoke particles when player dash/retreat touching the ground</li>
+<li>Weapons: Base Weapon Class (weapon weight, damage), Derived Gun Class (fire rate, bullet damage), Derived Projectile Gun Class (projectile, gun recoil, recharge time)</li>
+<li>Action Log: to learning mechanism
+Log every player weapon: saves it timestamp when initialized and saves its duration</li>
+<li>
+<p>Skill/Technique/Action Hierarchy: to learning mechanism
+Tree per skill/technique/action
+Every branch saves a time in the past and another action player must have done to perform a new skill/technique</p>
+
+<p>Example:</p>
+
+<p>Jump Skill
+|
+|
+Crouch Skill -&gt; still active =&gt; Perform "High Jump"</p>
+</li>
+</ul>
       </section>
     </div>
 

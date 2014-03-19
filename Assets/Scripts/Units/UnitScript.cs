@@ -28,4 +28,10 @@ public class UnitScript : MonoBehaviour
   {
     alive = true;
   }
+
+  public void KnockbackUnit(Vector2 force)
+  {
+    if (rigidbody2D)
+      rigidbody2D.AddForce(force);
+  }
 }

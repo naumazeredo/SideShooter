@@ -40,6 +40,7 @@ public class RegularGunScript : GunScript
     int damage = damageMin + Random.Range(0, damageVariation);
     damage /= (penetration + 1);
     unit.DamageUnit(damage);
+    unit.KnockbackUnit(playerMove.GetDirection() * knockbackForce);
 
     // Log
     Debug.Log("damaged " + damage.ToString() + " on unit " + unit.name);

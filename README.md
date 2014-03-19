@@ -6,11 +6,11 @@ SideShooter (temporary name)
 Design
 ------
 - All players start equal. No classes, races or unique weapons (maybe races or classes, later)
-- Players have a weapon equipped, a weapon on his back, a jetpack, three skills and two techniques (maybe equipments too, later)
-- _Skills_ are simple actions (e.g.: dash, hight jump, taunt, retreat)
+- Players have a weapon equipped, a weapon on his back, a jetpack, two skills and two techniques (maybe equipments too, later)
+- _Skills_ are simple actions (e.g.: dash, high jump, taunt, retreat)
 - _Techniques_ are unique abilities that perform some kind of special effect, sometimes requiring the player to be equipped with some type of weapon/equipment
 
-- Players can move right and left, shoot/attack and use a jetpack
+- Players can move right and left, shoot/attack, use a jetpack and use skills and techniques
 - Weapons can be close-combat or ranged
 - Ranged weapons can have projectiles or not (small bullet guns will have no projectiles. Rocket-propellers and bows/crossbows must have)
 
@@ -21,11 +21,11 @@ Design
 
 - Players can carry two weapons, one equipped and the other carried in he's back (with certain _techniques_ he can carry some more (e.g.: Dual Wielding Sword let the player equip a pair of swords and carry a pair. ).
 
-####Jetpack and Jump
+#####Jetpack and Jump
 - Jump modifies the player's velocity instantly, giving a initial impulse
-- Jetpack _must_ not give a great acceleration (it can cancels the gravity, maybe a little bit more)
+- Jetpack _must_ not give a great acceleration
 
-####Skills
+###Skills
 #####Basic Skills
 - Dash: player thrusts forward a small distance, but he can be hit during it. Can be used mid-air. Can attack with melee weapons durint it
 - Retreat: player thrusts backwards a small distance, but he can be hit during it. (used mid-air?)
@@ -40,7 +40,7 @@ Design
 - Roll (Defend + Dash): player rolls on ground, prevent all damage and avoiding all projectiles during the roll. Cannot be used mid-air
 
 
-####Techniques
+###Techniques
 #####Format: name \[requirements\]\[damage\]\[cd\]: description
 #####Basic Techniques
 - Rapid-fire \[ranged bullet? weapons\]\[100%\]\[5s\]: player shoots 4 shots rapidly
@@ -61,13 +61,13 @@ Design
 #####Naum's ideas
 - Santoryu \[Roronoa Zoro\]: lets you equip three swords and carry other three. In reference to One Piece's Roronoa Zoro
 
-####Weapons
+###Weapons
 
 #####Magic Weapons
 - Grimoire: spawn creatures!!!
 - Wand: shoots a magic projectile
 
-#####
+#####+
 - Mini-gun
 - Rocket Propeller Guns: player shoots a rocket that goes straight forward. Than him enters a recharge period to be able to shoot again
 
@@ -85,10 +85,10 @@ Design
 - Boss prizes (items!)
 - Swapping weapons during skirmish/campaign
 
-####New Ideas
+###New Ideas
 - Sidekickers(?): Small aliens that can help the players
 
-####To Implement
+###To Implement
 - (High-end) Smoke particles when player dash/retreat touching the ground
 - Weapons: Base Weapon Class (weapon weight, damage), Derived Gun Class (fire rate, bullet damage), Derived Projectile Gun Class (projectile, gun recoil, recharge time)
 - Action Log: to learning mechanism

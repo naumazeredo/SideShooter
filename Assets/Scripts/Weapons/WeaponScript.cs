@@ -15,6 +15,8 @@ public abstract class WeaponScript : MonoBehaviour
   //public int damageMod;
   public float attackRate = 1f;   // Attacks per second
 
+  public float knockbackForce = 0f;
+
   public void PickUpWeapon(PlayerScript p)
   {
     player = p;
